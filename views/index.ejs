@@ -6,24 +6,16 @@
     <script>
 
 
-        function getCookie(cname) {
-            var name = cname + "=";
-            var ca = document.cookie.split(';');
-            for(var i = 0; i < ca.length; i++) {
-                var c = ca[i];
-                while (c.charAt(0) == ' ') {
-                    c = c.substring(1);
-                }
-                if (c.indexOf(name) == 0) {
-                    return c.substring(name.length, c.length);
-                }
-            }
-            return "";
-        }
-        var x = document.getElementById("history");
+        $(document).ready(function(){
+            $("button").click(function(){
+                $("#history").load("chat.txt");
+            });
+        });
+
       function nesto() {
+          var x = document.getElementById("history");
           $.ajax({
-              method: "get",
+              method: "post",
               url: "/text",
 
             //  data: {}
@@ -43,9 +35,9 @@
   <body onload="nesto()">
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
-    <%= poruke %>
-<div id="history" style="overflow-y: scroll; height:300px;"> </div>
 
+<div id="history" style="overflow-y: scroll; height:300px;"><%= title %> <%= poruke %></div>
+    <button>Refresh</button>
     <form action="/poruka" method="post">
 
        <input type="text" name="fpor"><br>
