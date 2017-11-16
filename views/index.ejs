@@ -1,49 +1,79 @@
 <!DOCTYPE html>
 <html>
   <head>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+<script src="/javascripts/index.js"></script>
     <script>
 
-
-        $(document).ready(function(){
+    $(document).ready(function(){
             $("button").click(function(){
-                $("#history").load("chat.txt");
+                $("#history").load("../chat.txt");
             });
         });
 
-      function nesto() {
-          var x = document.getElementById("history");
-          $.ajax({
-              method: "post",
-              url: "/text",
 
-            //  data: {}
-          })
-              .done(function (msg) {
-
-
-                  x.innerHTML = msg.poruke;
-
-                  // marker.setPosition(KK);
-                  //  map.setCenter(KK);
-                  //alert( "Data Saved: " + msg );
-              });
-      }
     </script>
   </head>
-  <body onload="nesto()">
+  <body onload="refresh()">
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
 
-<div id="history" style="overflow-y: scroll; height:300px;"><%= title %> <%= poruke %></div>
-    <button>Refresh</button>
-    <form action="/poruka" method="post">
+<div id="history" style="overflow-y: scroll; height:300px;" ></div>
 
-       <input type="text" name="fpor"><br>
+    <script>
+        function nesto() {
+            console.log('ajax pocetak\n');
+            var x = document.getElementById("history");
+            $.ajax({
+                method: "get",
+                url: "/text",
 
-      <input type="submit" value="Submit">
-    </form>
+                //  data: {}
+            })
+                .done(function (msg) {
+
+                    document.getElementById("history").innerHTML=msg.poruke;
+                   // x.innerHTML = msg.poruke;
+                    console.log(msg.poruke);
+                    console.log('ajax end\n');
+                    // marker.setPosition(KK);
+                    //  map.setCenter(KK);
+                    //alert( "Data Saved: " + msg );
+                });
+        }
+
+
+       // document.getElementById("history").innerHTML="nesto";
+        var x = document.getElementById("history");
+        $.ajax({
+            method: "get",
+            url: "/text",
+
+            //  data: {}
+        })
+            .done(function (msg) {
+
+                document.getElementById("history").innerHTML="ajax";
+                x.innerHTML = msg.poruke;
+
+                // marker.setPosition(KK);
+                //  map.setCenter(KK);
+                //alert( "Data Saved: " + msg );
+            });
+        </script>
+
+    <button >Refresh</button>
+   <!-- <form action="/poruka" method="post">-->
+<p>
+       <input type="text" name="fpor" id="message"><br>
+
+   <!-- <input type="submit" value="Submit">-->
+       <!-- <input type="submit" value="posalji" onclick="sendMesseges()">-->
+    <input type="button" value="posalji" onclick="sendMesseges()">
+</p>
+    <!--</form>-->
 
   </body>
 </html>
